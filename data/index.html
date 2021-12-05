@@ -13,43 +13,53 @@
     <input type = "button" onclick = "getFromESP_getNom()" value = "Afficher">   -->
 
 <h1> Type de Bois</h1>
-<FORM class='bois'>
-    <SELECT name="nom" size="1" class="choix">
-    <OPTION>Erable
-    <OPTION>Boulot
-    <OPTION>Chene
-    </SELECT>
-</FORM>
+
+<SELECT id="typeBois_ListBox_Select" onchange="getInfoWood();" size="1" class="choix">
+</SELECT>
+
 
 
 <h1>Caracteristiques
 </h1>
 
-
+<div>
 <h2> 
-    Bois : Erable
+    Bois : <span id="nom"></span>
 <br> 
-    Type : dur
+    Type : <span id="typeBois"></span>
 <br>
-    Origine : US
+    Origine : <span id="origine"></span>
 <br> 
-    Temps de sechage: 20 secondes
+    Temps de sechage: <span id="tempsSechage"></span>
 <br> 
-    Temperature min : 25 Celcius   
+    Temperature min : <span id="tempMin"></span>  
 </h2>
-
+</div>
 <h3> Controle du four de sechage </h3>
 
-<div class="center">
+<div class="block">
+    <div class="center">
     <p> Temperature du Four </p>
     <br>
     <p class="celcius" id="temp"></p>
     <br>
-    <p class="box">Demarrage du four</p>
+    <button id="four" onclick="demarrageFour();" class="box">Demarrage du four</button>
+    </div>
+    <div class="ligne">
+        <span id="timer"></span>
+        <span id="tempMin"></span>
+        <span class="cercleRouge"></span>
+        <span class="cercleOrange"></span>
+        <span class="cercleVert"></span>
+    </div>
 </div>
 </body>
 <script type = "text/javascript" src="script.js"> </script>
-<script> getFromESP_getNom(); 
-         getFromEsp_TemperatureSensor();</script>
+<script>
+        // getFromEsp_TemperatureSensor();
+         getFromESP_getAllWoodOptions();
+         getInfoWood();
+         demarrageFour();
+                </script>
 
 </html>

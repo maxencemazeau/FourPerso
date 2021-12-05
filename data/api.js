@@ -29,7 +29,7 @@ app.use(cors());
 app.get('/bois', function(req, res, next){ 
     res.locals.connection.query('Select * from Bois', function(error, results, fields){
         if (error) throw error;
-        res.send(JSON.stringify({"status":200, "error":null, "response": results}))
+        res.send(JSON.stringify({results}));
     })
 });
 
@@ -37,6 +37,6 @@ app.get('/bois', function(req, res, next){
 app.get('/bois/:id',function(req, res, next){
     res.locals.connection.query('Select * from Bois where id = ?', [req.params.id], function(error, results, fields){
         if(error) throw error;
-        res.send(JSON.stringify({"status": 200, "error":null, "response": results}))
+        res.send(JSON.stringify({results}));
     })
 });

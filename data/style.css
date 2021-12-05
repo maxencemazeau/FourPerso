@@ -15,7 +15,8 @@ body {
     font-family: 'Times New Roman', Times;
     font-weight: normal ;
   }
-  .center {
+
+  .block{
     width:500px;
     height:400px;
     position: fixed;
@@ -24,6 +25,9 @@ body {
     margin-top: -275px;
     margin-left: -65px;
     border: 5px solid black;
+
+  }
+  .center {
     font-family: 'Times New Roman', Times;
     font-weight: bold ;
     text-align: center;
@@ -60,6 +64,38 @@ body {
     margin-left: 125px;
     margin-right: 125px;
   }
+
+.cercleRouge {
+    height: 10px;
+    width: 10px;
+    background-color : red;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: right;
+}
+
+.cercleOrange {
+  height: 10px;
+  width: 10px;
+  background-color : orange;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: right;
+}
+
+.cercleVert {
+  height: 10px;
+  width: 10px;
+  background-color : green;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: right;
+}
+
+.ligne {
+  display: inline-block;
+}
+
 
 
   

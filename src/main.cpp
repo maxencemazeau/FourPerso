@@ -93,12 +93,6 @@ String ssIDRandom;
 #define DHTTYPE DHT22  //Le type de senseur utilisé (mais ce serait mieux d'avoir des DHT22 pour plus de précision)
 TemperatureStub *temperatureStub = NULL;
 
-
-//Pour la gestion des boutons
-#include "MyButton.h"
-MyButton *myButtonAction = NULL;
-MyButton *myButtonReset = NULL;
-
 //Définition des trois leds de statut
 #define GPIO_PIN_LED_LOCK_ROUGE         12 //GPIO12
 #define GPIO_PIN_LED_OK_GREEN             14 //GPIO14
@@ -132,8 +126,9 @@ std::string CallBackMessageListener(string message) {
     std::string nomDuFour = "Four9394";
      if(string(actionToDo.c_str()).compare(string("askNomFour")) == 0) {
     return(temp.c_str()); }
-    
 
+
+    
     }
 
 
@@ -175,18 +170,6 @@ char strToPrint[128];
     temperatureStub = new TemperatureStub;
     temperatureStub->init(DHTPIN, DHTTYPE); //Pin 15 et Type DHT11
 
-    //Gestion des boutons
-    myButtonAction = new MyButton();        //Pour lire le bouton actions
-    myButtonAction->init(T8);
-    int sensibilisationButtonAction = myButtonAction->autoSensibilisation();
-
-    myButtonReset = new MyButton();         //Pour lire le bouton hard reset
-    myButtonReset->init(T9);
-    int sensibilisationButtonReset = myButtonReset->autoSensibilisation();
- 
-   Serial.print("sensibilisationButtonAction : "); Serial.println(sensibilisationButtonAction);
-   Serial.print("sensibilisationButtonReset : "); Serial.println(sensibilisationButtonReset);
-
     //Initialisation des LED statuts
     pinMode(GPIO_PIN_LED_LOCK_ROUGE,OUTPUT);
     pinMode(GPIO_PIN_LED_OK_GREEN,OUTPUT);
@@ -202,46 +185,7 @@ char strToPrint[128];
 
 
 void loop() {
-    //Gestion de la température
-     float t = temperatureStub->getTemperature();
     
-
-    //Gestion du bouton Action et des LED
-    int buttonAction = myButtonAction->checkMyButton();
-    if(buttonAction > 2)  {  //Si appuyé plus de 0.2 secondes
-        if(t < 25.0) { //Si température inférieur à 25 degré
-          Serial.println("Température inférieur à 25");
-          Serial.println(t);
-          digitalWrite(GPIO_PIN_LED_LOCK_ROUGE,LOW); //Allume la led 
-          delay(3000);
-          digitalWrite(GPIO_PIN_LED_LOCK_ROUGE,HIGH); //Eteint la led
-
-        } else if (t > 25) { //Si température supérieur à 25 degré
-            Serial.println("Température supérieur à 25");
-            Serial.println(t);
-
-          for( int i = 0; i<5 ; i++){ //Tant qeue i est inférieur à 5 la boucle est joué
-            digitalWrite(GPIO_PIN_LED_OK_GREEN,LOW);
-            delay(500);
-            digitalWrite(GPIO_PIN_LED_OK_GREEN,HIGH);
-            delay(500);
-             }
-        }
-    }
-    
-
-         //Gestion du bouton Reset
-    int buttonReset = myButtonReset->checkMyButton();
-     if(buttonReset > 300)  {  //Si appuyé plus de 30 secondes
-        Serial.println("Button Reset pressed\n");
-        //Le bouton hard reset a été appuyé
-        Serial.println("Button Hard reset pressed\n");
-        Serial.println("Suppression des réglages et redémarrage...\n");
-        }
-
-    delay(10);
-
-
     
   }
 
