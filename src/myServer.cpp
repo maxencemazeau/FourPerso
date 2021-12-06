@@ -13,6 +13,7 @@ CallbackType MyServer::ptrToCallBackFunction = NULL;
 
 //Exemple pour appeler une fonction CallBack
 //if (ptrToCallBackFunction) (*ptrToCallBackFunction)(stringToSend); 
+
 void MyServer::initCallback(CallbackType callback) {
     ptrToCallBackFunction = callback;
     }
@@ -27,12 +28,14 @@ void MyServer::initAllRoutes() {
         }
 
     //Route initiale (page html)
+    
     this->on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         Serial.println("Route du l'html");
         request->send(SPIFFS, "/index.html", "text/html");
         });
 
     //Route du script JavaScript
+
     this->on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request) {
         Serial.println("Route du scrip js");
         request->send(SPIFFS, "/script.js", "text/javascript");
@@ -81,10 +84,9 @@ void MyServer::initAllRoutes() {
         http.GET();
         String response = http.getString();
         Serial.println(response);
-
         request->send(200, "text/plain", response);
+        
     });
-
     
     this->begin();
 };

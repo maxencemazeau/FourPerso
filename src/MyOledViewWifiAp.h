@@ -1,16 +1,23 @@
-/* #include <string>
-#include <Arduino.h>
+// #include <Adafruit_SSD1206.h>
+// #include <string> 
 
-class MyOledViewWifiAp
-{
-    public :
 
-        void setNomDuSysteme(std::string value);
-        void setSsIDDuSysteme(std::string value);
-        void setPassDuSysteme(std::string value);
-        void setSensibiliteButtonReset(std::string value);
+// class MyOledViewWorkingWifiAP : public MyOledViewWorking {
 
-        virtual void display(Adafruit_SSD1306 *adafruit) = 0;
-        virtual void update(Adafruit_SSD1306 *adafruit) = 0;
-}
-*/
+//     public :
+
+//        void setNomDuSysteme(std::string val);
+//        void setSsIDDuSysteme(std::string val);
+//        void setpassDuSysteme(std::string val);
+
+//     private:
+     
+//         std::string NomDuSysteme;
+//         std::string IdDuSysteme;
+//         std::string passDuSysteme;
+
+//         virtual void update(Adafruit_SSD1306 *adafruit) = 0;
+//         virtual void display( Adafruit_SSD1306 *adafruit) = 0;
+
+
+// }

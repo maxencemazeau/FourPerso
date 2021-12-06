@@ -47,10 +47,13 @@ function getFromESP_getNom () {
                 if(x.value == arrayOfStrings.results[i].id){
                     boisChoisi = arrayOfStrings.results[i];
                     document.getElementById('nom').innerHTML = arrayOfStrings.results[i].bois;
+                    document.getElementById('nom2').innerHTML = arrayOfStrings.results[i].bois;
                     document.getElementById('typeBois').innerHTML = arrayOfStrings.results[i].typeBois;
                     document.getElementById('origine').innerHTML = arrayOfStrings.results[i].origine;
                     document.getElementById('tempsSechage').innerHTML = arrayOfStrings.results[i].tempsSechage;
+                    document.getElementById('tempsSechage2').innerHTML = arrayOfStrings.results[i].tempsSechage;
                     document.getElementById('tempMin').innerHTML = arrayOfStrings.results[i].tempMin;
+                    document.getElementById('tempMin2').innerHTML = arrayOfStrings.results[i].tempMin;
                 }
          }
      }      
@@ -77,8 +80,6 @@ function demarrageFour(){
     }
     
 }
-
-
 
 
 function getFromESP_getAllWoodOptions() {

@@ -58,26 +58,37 @@
 #include <ArduinoJson.h>
 
 #include "myFunctions.cpp" //fonctions utilitaires
+#include "MyOled.h"
 
 #include "Adafruit_GFX.h"
 #include "Adafruit_SSD1306.h"
 #include "Adafruit_NeoPixel.h"
 #include <Wire.h>
 #include "MyOledView.h" //Fonction Oled
-#include "MyOled.h"
+#include "MyOledViewInitialisation.h"
+
 #define Protocole I2C, Adresse : 0x3C (défaut)
 #define GPIO21 : SDA
 #define GPIO22 : SCL
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 32
-#define OLED_RESET 4
-MyOled *myOled = new MyOled(&Wire, OLED_RESET, SCREEN_HEIGHT, SCREEN_WIDTH);
+#define OLED_I2C_ADDRESS 0x3C // Adresse I2C de l'écran Oled
 
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET 4
+
+MyOled *myOled = NULL;
+MyOledViewInitialisation *viewIni = NULL;
 
 #include <HTTPClient.h>
 #include <WiFiManager.h>
 WiFiManager wm;
 #define WEBSERVER_H
+
+
+#include "MyButton.h"
+MyButton *myButtonAction = NULL;
+MyButton *myButtonReset = NULL;
 
 //Pour la gestion du serveur ESP32
 #include "MyServer.h"
@@ -126,17 +137,49 @@ std::string CallBackMessageListener(string message) {
     std::string nomDuFour = "Four9394";
      if(string(actionToDo.c_str()).compare(string("askNomFour")) == 0) {
     return(temp.c_str()); }
-
-
     
-    }
+
+std::string result = "";
+return result;
+}
+
 
 
 void setup() { 
     Serial.begin(9600);
     delay(100);
 
-   
+   myOled = new MyOled(&Wire, OLED_RESET, SCREEN_HEIGHT, SCREEN_WIDTH);
+   myOled->init(OLED_I2C_ADDRESS, true);
+   viewIni = new MyOledViewInitialisation();
+
+
+    viewIni->setNomDuSysteme("SAC System");
+    viewIni->setIdDuSysteme("1234");
+    viewIni->setSensibiliteBoutonAction("????");
+    viewIni->setSensibiliteBoutonReset("????");
+
+    myOled->displayView(viewIni);
+
+
+   //Gestion des boutons
+    myButtonAction = new MyButton();        //Pour lire le bouton actions
+    myButtonAction->init(T8);
+    int sensibilisationButtonAction = myButtonAction->autoSensibilisation();
+
+    myButtonReset = new MyButton();         //Pour lire le bouton hard reset
+    myButtonReset->init(T9);
+    int sensibilisationButtonReset = myButtonReset->autoSensibilisation();
+
+   Serial.print("sensibilisationButtonAction : "); Serial.println(sensibilisationButtonAction);
+   Serial.print("sensibilisationButtonReset : "); Serial.println(sensibilisationButtonReset);
+
+    viewIni->setSensibiliteBoutonAction(String(sensibilisationButtonAction).c_str());
+    viewIni->setSensibiliteBoutonReset(String(sensibilisationButtonReset).c_str());
+
+    myOled->displayView(viewIni);
+
+
  //Connection au WifiManager
     String ssIDRandom, PASSRandom;
     String stringRandom;
@@ -188,8 +231,6 @@ void loop() {
     
     
   }
-
-
 
 
 
