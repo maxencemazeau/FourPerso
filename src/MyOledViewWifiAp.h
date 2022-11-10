@@ -1,23 +1,23 @@
-// #include <Adafruit_SSD1206.h>
-// #include <string> 
+ #include <Adafruit_SSD1206.h>
+ #include <string> 
 
 
-// class MyOledViewWorkingWifiAP : public MyOledViewWorking {
+ class MyOledViewWorkingWifiAP : public MyOledViewWorking {
 
-//     public :
+    public :
 
-//        void setNomDuSysteme(std::string val);
-//        void setSsIDDuSysteme(std::string val);
-//        void setpassDuSysteme(std::string val);
+       void setNomDuSysteme(std::string val);
+       void setSsIDDuSysteme(std::string val);
+       void setpassDuSysteme(std::string val);
 
-//     private:
+    private:
      
-//         std::string NomDuSysteme;
-//         std::string IdDuSysteme;
-//         std::string passDuSysteme;
+        std::string NomDuSysteme;
+        std::string IdDuSysteme; 
+        std::string passDuSysteme;
 
-//         virtual void update(Adafruit_SSD1306 *adafruit) = 0;
-//         virtual void display( Adafruit_SSD1306 *adafruit) = 0;
+         virtual void update(Adafruit_SSD1306 *adafruit) = 0;
+         virtual void display( Adafruit_SSD1306 *adafruit) = 0;
 
 
-// }
+ }

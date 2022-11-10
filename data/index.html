@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
  
 <head>
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -12,10 +12,15 @@
     <!-- <p>Cliquez ici </p>  
     <input type = "button" onclick = "getFromESP_getNom()" value = "Afficher">   -->
 
-<h1> Type de Bois</h1>
+<h1 data-i18n-key="app-title"> Type de Bois</h1>
+<select data-i18n-switcher class="locale-switcher">
+    <option value="fr">French</option>
+    <option value="eng">English</option>
+  </select>
 
-<SELECT id="typeBois_ListBox_Select" onchange="getInfoWood();" size="1" class="choix">
+  <SELECT id="typeBois_ListBox_Select" onchange="getFromESP_getAllWoodOptions();" size="1" class="choix">
 </SELECT>
+
 
 
 
@@ -24,18 +29,18 @@
 
 <div>
 <h2> 
-    Bois : <span id="nom"></span>
+    Bois : <span id="nomDuBois"></span>
 <br> 
     Type : <span id="typeBois"></span>
 <br>
-    Origine : <span id="origine"></span>
+    Origine : <span id="origineBois"></span>
 <br> 
-    Temps de sechage: <span id="tempsSechage"></span>
+    Temps de sechage: <span id="dryingBois"></span>
 <br> 
     Temperature min : <span id="tempMin"></span>  
 </h2>
 </div>
-<h3> Controle du four de sechage </h3>
+<h3 data-i18n-key="lead"> Controle du four de sechage </h3>
 
 <div class="block">
     <div class="center">
@@ -43,11 +48,11 @@
     <br>
     <p class="celcius" id="temp"></p>
     <br>
-    <button id="four" onclick="demarrageFour();" class="box">Demarrage du four</button>
+    <button id="four" class="box">Demarrage du four</button>
     </div>
     <div class="ligne">
-        <p class="bleu"><span id="nom2"></span></p>
-        <p class="bleu"><span id="timer"></span>/<span id="tempsSechage2"></span> Temps de sechage(sec)</p>
+        <p class="bleu"><span id="nomDuBois2"></span></p>
+        <p class="bleu"><span id="timer"></span>/<span id="dryingBois2"></span> Temps de sechage(sec)</p>
         <p class="bleu">(min: <span id="tempMin2"></span> Celsuis)</p>
     <div class="right">
         <span class="cercleRouge"></span>
@@ -62,7 +67,10 @@
         // getFromEsp_TemperatureSensor();
          getFromESP_getAllWoodOptions();
          getInfoWood();
+         //getIdBois();
+         getNomBois()
          demarrageFour();
+        translateElement();
                 </script>
 
 </html>

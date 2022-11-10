@@ -1,4 +1,24 @@
+/* Copyright (C) 2021 Alain Dube
+ * All rights reserved.
+ *
+ * Projet Sac
+ * Ecole du Web
+ * Cours Objets connectés (c)2021
+ *  
+    @file     MyOledViewInitialisation.cpp
+    @author   Maxence MAZEAU
+    @version  1.1 21/08/15 
 
+    Historique des versions
+           Version    Date       Auteur       Description
+           1.1        05/08/21  Maxence       Première version du logiciel
+
+
+    platform = espressif32
+    board = esp32doit-devkit-v1
+    framework = arduino
+
+    */
 
 #include <Arduino.h>
 #include "MyOledViewInitialisation.h"

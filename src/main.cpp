@@ -12,6 +12,7 @@
     Historique des versions
            Version    Date       Auteur       Description
            1.1        21/08/15  Alain       Première version du logiciel
+           1.2        05/08/21  Maxence     Deuxième version du logiciel
 
     platform = espressif32
     board = esp32doit-devkit-v1
@@ -222,13 +223,22 @@ char strToPrint[128];
     digitalWrite(GPIO_PIN_LED_OK_GREEN,HIGH);
 
         
-        
+
 
  };
 
 
 void loop() {
-    
+    /*myOled->clearDisplay();
+    int x = 20;
+    int y = 10;
+    char buffer[1024];
+    float temp = temperatureStub->getTemperature();
+    Serial.println(temp);
+    sprintf(buffer,"Temperature : %f" ,temp);
+    myOled->printIt(x,y,buffer, true, 0);
+    delay(1000);
+*/
     
   }
 
