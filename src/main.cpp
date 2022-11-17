@@ -67,6 +67,8 @@
 #include <Wire.h>
 #include "MyOledView.h" //Fonction Oled
 #include "MyOledViewInitialisation.h"
+#include "MyOledViewWifiAp.h"
+#include "MyOledViewWorking.h"
 
 #define Protocole I2C, Adresse : 0x3C (défaut)
 #define GPIO21 : SDA
@@ -80,6 +82,7 @@
 
 MyOled *myOled = NULL;
 MyOledViewInitialisation *viewIni = NULL;
+MyOledViewWorkingWifiAP *viewWifi = NULL;
 
 #include <HTTPClient.h>
 #include <WiFiManager.h>
@@ -152,7 +155,9 @@ void setup() {
 
    myOled = new MyOled(&Wire, OLED_RESET, SCREEN_HEIGHT, SCREEN_WIDTH);
    myOled->init(OLED_I2C_ADDRESS, true);
+   viewWifi = new MyOledViewWorkingWifiAP();
    viewIni = new MyOledViewInitialisation();
+
 
 
     viewIni->setNomDuSysteme("SAC System");
@@ -180,6 +185,7 @@ void setup() {
 
     myOled->displayView(viewIni);
 
+   
 
  //Connection au WifiManager
     String ssIDRandom, PASSRandom;
@@ -203,7 +209,13 @@ char strToPrint[128];
     else {
         Serial.println("Connexion Établie.");
         }
-    
+     myOled->clearDisplay();
+
+    viewWifi->setNomDuSysteme("SAC System");
+    viewWifi->setSsIDDuSysteme(ssIDRandom.c_str());
+    viewWifi->setpassDuSysteme(PASSRandom.c_str());
+
+     myOled->displayView(viewWifi);
 
     // ----------- Routes du serveur ----------------
     myServer = new MyServer(80);
