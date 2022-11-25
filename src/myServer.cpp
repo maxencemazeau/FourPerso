@@ -74,10 +74,6 @@ void MyServer::initAllRoutes() {
         String temp = String(repString.c_str());
         request->send(200, "text/plain", temp);
         });
-
-   //this->on("/getAllWoodOptions", HTTP_GET, [](AsyncWebServerRequest *request) {
-     //   Serial.println("getAllWoodOptions... ");
-
     
     this->on("/getlisteNomBois", HTTP_GET, [](AsyncWebServerRequest *request) {
         if (ptrToCallBackFunction) (*ptrToCallBackFunction)("button getlisteBois");
