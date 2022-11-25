@@ -3,44 +3,57 @@
  
 <head>
 <link rel="stylesheet" href="style.css" type="text/css">
+<script type = "text/javascript" src="script.js"> 
 
+    //getFromEsp_TemperatureSensor();
+     //getFromESP_getAllWoodOptions();
+     getNomBois();
+     getCaracteristiqueBois();
+     
+     //demarrageFour();
+
+            </script>
 </head>
 
 <body>
+    <img src="sac.png" width="200" height="100">
 
+    <h1> Type de Bois</h1>
 
-    <!-- <p>Cliquez ici </p>  
-    <input type = "button" onclick = "getFromESP_getNom()" value = "Afficher">   -->
-
-<h1 data-i18n-key="app-title"> Type de Bois</h1>
-<select data-i18n-switcher class="locale-switcher">
-    <option value="fr">French</option>
-    <option value="eng">English</option>
-  </select>
-
-  <SELECT id="typeBois_ListBox_Select" onchange="getFromESP_getAllWoodOptions();" size="1" class="choix">
+  <SELECT id="listeBois" size="1" class="choix">
 </SELECT>
-
-
-
 
 <h1>Caracteristiques
 </h1>
 
-<div>
-<h2> 
-    Bois : <span id="nomDuBois"></span>
-<br> 
-    Type : <span id="typeBois"></span>
-<br>
-    Origine : <span id="origineBois"></span>
-<br> 
-    Temps de sechage: <span id="dryingBois"></span>
-<br> 
-    Temperature min : <span id="tempMin"></span>  
-</h2>
-</div>
-<h3 data-i18n-key="lead"> Controle du four de sechage </h3>
+<table style="border:solid;">
+        <tr>
+          <td>Bois</td>
+          <td>:</td>
+          <td id="nomDuBois"> </td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>:</td>
+          <td id="typeBois"></td>
+        </tr>
+        <tr>
+          <td>Origine </td>
+          <td>:</td>
+          <td id="origineBois"></td>
+        </tr>
+        <tr>
+          <td>Temps de sechage</td>
+          <td>:</td>
+          <td id="dryingBois"> </td>
+        </tr>
+        <tr>
+          <td>Temperature min</td>
+          <td>:</td>
+          <td id="tempMin"></td>
+        </tr>
+      </table>
+<h3> Controle du four de sechage </h3>
 
 <div class="block">
     <div class="center">
@@ -62,15 +75,6 @@
     </div>
 </div>
 </body>
-<script type = "text/javascript" src="script.js"> </script>
-<script>
-        // getFromEsp_TemperatureSensor();
-         getFromESP_getAllWoodOptions();
-         getInfoWood();
-         //getIdBois();
-         getNomBois()
-         demarrageFour();
-        translateElement();
-                </script>
+
 
 </html>

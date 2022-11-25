@@ -37,7 +37,6 @@ void MyOledViewWorkingWifiAP::setpassDuSysteme(string val){
        adafruit->setCursor(0,0);
        adafruit->println(strNom);
        adafruit->setTextColor(BLACK, WHITE); // 'inverted' text
-       adafruit->println(3.141592);
        adafruit->setTextSize(1);
        adafruit->setTextColor(WHITE);
        adafruit->println(strId); 

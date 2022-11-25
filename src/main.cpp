@@ -136,7 +136,7 @@ std::string CallBackMessageListener(string message) {
     string arg9 = getValue(message, ' ', 9);
     string arg10 = getValue(message, ' ', 10);
 
-   
+    
     string actionToDo = getValue(message, ' ', 0);
     std::string nomDuFour = "Four9394";
      if(string(actionToDo.c_str()).compare(string("askNomFour")) == 0) {
