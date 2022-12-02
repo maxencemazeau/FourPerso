@@ -1,30 +1,32 @@
+/**
+    Gestion d'une VUE pour le OLed  
+    @file MyOledViewWorkingCOLD.cpp
+    @author Alex De Souza
+    @version 1.1 20/11/22 
+*/
 
-// #include <MyOledViewWorkingCOLD.h>
-// #include<Arduino.h>
+#include <Arduino.h>
+#include "MyOledViewWorkingCOLD.h"
 
+using namespace std;
 
+void MyOledViewWorkingCOLD::display(Adafruit_SSD1306 *adafruit){
 
-// void MyOledViewWorkingCOLD::update(Adafruit_SSD1306 *adafruit){
-//     Serial.println('Update Display Adafruit')
-// }
+    MyOledViewWorking::display(adafruit);
 
-// void MyOledViewWorkingCOLD::display(Adafruit_SSD1306 *adafruit){
+    adafruit->setTextSize(1);
+    adafruit->setCursor(70,20);
+    adafruit->print("Waiting");
 
-//       adafruit-> setTextSize(1);
-//       adafruit->setTextColor(WHITE);
-//       adafruit->setCursor(0,0);
-//       adafruit->println("Hello, world!");
-//       adafruit->display();
+    displayGifFire(adafruit, 80, 30);
 
-//       adafruit-> setTextSize(1);
-//       adafruit->setTextColor(WHITE);
-//       adafruit->setCursor(0,0);
-//       adafruit->println("Hello, world!");
-//       adafruit->display();
+    adafruit->setTextSize(2);
+    adafruit->setCursor(10, 30);
+    adafruit->print(getTag("temperature").c_str());
 
-//       adafruit-> setTextSize(1);
-//       adafruit->setTextColor(WHITE);
-//       adafruit->setCursor(0,0);
-//       adafruit->println("Hello, world!");
-//       adafruit->display();
-// }
+    adafruit->display();
+}
+
+void MyOledViewWorkingCOLD::update(Adafruit_SSD1306 *adafruit){
+    Serial.println("Update my view MyOledViewWorkingCOLD");
+}

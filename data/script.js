@@ -1,6 +1,7 @@
 
    var boisChoisi;
    var temperature;
+   var etat;
    
 window.addEventListener("load", getNomBois());
 function getNomBois(){
@@ -47,6 +48,13 @@ function getCaracteristiqueBois(){
                         document.getElementById("nomDuBois2").innerHTML = description.results[i].nom;
                         document.getElementById("tempMin2").innerHTML = description.results[i].tempMin;
                         document.getElementById("dryingBois2").innerHTML = description.results[i].drying;
+                       // etat="OFF";
+                        document.getElementById("rouge").style.visibility = 'visible';
+                        document.getElementById("orange").style.visibility = 'hidden';
+                        document.getElementById("vert").style.visibility = 'hidden';
+                        var xhttp2 = new XMLHttpRequest()
+                        xhttp2.open("GET", "etatFour?etat="+"OFF", true);
+                        xhttp2.send();
                     }
                     document.getElementById("four").addEventListener("click", four);
                 }
@@ -60,19 +68,27 @@ function getCaracteristiqueBois(){
     var i = 0;
     var temp = parseInt(temperature);
     if( temp >= boisChoisi.tempMin) {
-       var timer = setInterval(function(){
+            var timer = setInterval(function(){
+                
             i++
             document.getElementById("timer").innerHTML = i;
-            console.log(i);
+            document.getElementById("rouge").style.visibility = 'hidden';
+            document.getElementById("orange").style.visibility = 'visible';
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "etatFour?etat="+"HEATING", true);
+            xhttp.send();
             if(i == boisChoisi.drying){
+                
                 clearInterval(timer);
+                document.getElementById("orange").style.visibility = 'hidden';
+                document.getElementById("vert").style.visibility = 'visible';
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "etatFour?etat="+"COLD", true);
             }
             
-        }, 1000);
-    } else {
-        console.log('non');
-    }
+    }, 1000);
     
+}
 };
 
 setInterval(function getFromEsp_TemperatureSensor(){
@@ -89,5 +105,3 @@ setInterval(function getFromEsp_TemperatureSensor(){
     xhttp.send();
     
     }, 3000);
-
-    

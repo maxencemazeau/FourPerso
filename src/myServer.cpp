@@ -68,6 +68,17 @@ void MyServer::initAllRoutes() {
         request->send(200, "text/plain", nom);
         });
     
+    this->on("/etatFour", HTTP_GET, [](AsyncWebServerRequest *request){
+            AsyncResponseStream *response = request->beginResponseStream("text/html"); //Reception de la réponse
+            AsyncWebParameter* p = request->getParam(0); // Récupération de la valeur du premier paramètre de notre requête GET
+            String etat = p->value();
+            //String sendTo = "etatFour "; 
+            String actionToSend = String(etat);
+            //Serial.println(actionToSend);
+            if (ptrToCallBackFunction) (*ptrToCallBackFunction)(actionToSend.c_str());
+            request->send(200, "text/plain", "etatFour");
+        });
+
      this->on("/getTemperatureSensor", HTTP_GET, [](AsyncWebServerRequest *request) {
         std::string repString = "";
         if (ptrToCallBackFunction) repString = (*ptrToCallBackFunction)("temperature");

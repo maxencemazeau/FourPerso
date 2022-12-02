@@ -69,6 +69,9 @@
 #include "MyOledViewInitialisation.h"
 #include "MyOledViewWifiAp.h"
 #include "MyOledViewWorking.h"
+#include "MyOledViewWorkingOFF.h"
+#include "MyOledViewWorkingCOLD.h"
+#include "MyOledViewWorkingHEAT.h"
 
 #define Protocole I2C, Adresse : 0x3C (défaut)
 #define GPIO21 : SDA
@@ -83,6 +86,9 @@
 MyOled *myOled = NULL;
 MyOledViewInitialisation *viewIni = NULL;
 MyOledViewWorkingWifiAP *viewWifi = NULL;
+MyOledViewWorkingOFF *myOledViewWorkingOFF = NULL;
+MyOledViewWorkingCOLD *myOledViewWorkingCOLD = NULL;
+MyOledViewWorkingHEAT *myOledViewWorkingHEAT = NULL;
 
 #include <HTTPClient.h>
 #include <WiFiManager.h>
@@ -113,6 +119,15 @@ TemperatureStub *temperatureStub = NULL;
 #define GPIO_PIN_LED_OK_GREEN             14 //GPIO14
 #define GPIO_PIN_LED_HEAT_YELLOW        27 //GPIO27
 
+#define nomSystem "SAC System"
+
+float temperature;
+char strTemperatureDuFour[128];
+
+string stateLed;
+string etatFour;
+int currentTemperatureDisplayed = 0;
+
 //fonction statique qui permet aux objets d'envoyer des messages (callBack) 
 //  arg0 : Action 
 // arg1 ... : Parametres
@@ -120,14 +135,31 @@ std::string CallBackMessageListener(string message) {
     while(replaceAll(message, std::string("  "), std::string(" ")));
     //Décortiquer le message
     string arg1 = getValue(message, ' ', 0);
-    float temperature = temperatureStub->getTemperature();
     String temp = (String)temperature;
     if(string(arg1.c_str()).compare(string("temperature")) == 0){
     return (temp.c_str());
     }
-
-    string arg2 = getValue(message, ' ', 2);
     string arg3 = getValue(message, ' ', 3);
+    string arg2 = getValue(message, ' ', 2);
+    if(string(arg2.c_str()).compare(string("etatFour")) == 0) {
+            if (isEqualString(arg3.c_str(),"HEATING")) {
+                stateLed = "HEATING";
+                Serial.println("Heating");
+                
+                }
+            else if(isEqualString(arg3.c_str(),"COLD")) {
+                stateLed = "COLD";
+                
+                }
+            else if(isEqualString(arg3.c_str(),"OFF")) {
+                stateLed = "OFF";
+                }
+            else {
+                stateLed = "Error";
+                }
+            return(String("Ok").c_str());
+            }
+    
     string arg4 = getValue(message, ' ', 4);
     string arg5 = getValue(message, ' ', 5);
     string arg6 = getValue(message, ' ', 6);
@@ -231,27 +263,77 @@ char strToPrint[128];
     pinMode(GPIO_PIN_LED_OK_GREEN,OUTPUT);
     pinMode(GPIO_PIN_LED_HEAT_YELLOW,OUTPUT);
 
+    for(int i = 0; i < 2; i++){
     digitalWrite(GPIO_PIN_LED_LOCK_ROUGE,HIGH);
     digitalWrite(GPIO_PIN_LED_OK_GREEN,HIGH);
+    digitalWrite(GPIO_PIN_LED_HEAT_YELLOW,HIGH);
+    delay(1000);
+    digitalWrite(GPIO_PIN_LED_LOCK_ROUGE,LOW);
+    digitalWrite(GPIO_PIN_LED_OK_GREEN,LOW);
+    digitalWrite(GPIO_PIN_LED_HEAT_YELLOW,LOW);
+    delay(1000);
+    }
 
-        
-
-
+    digitalWrite(GPIO_PIN_LED_LOCK_ROUGE,HIGH);
+    digitalWrite(GPIO_PIN_LED_OK_GREEN,HIGH);
+    digitalWrite(GPIO_PIN_LED_HEAT_YELLOW,HIGH);
  };
+
+ void displayGoodScreen(){
+  delay(10);
+
+  sprintf(strTemperatureDuFour, "%g", temperature);
+
+  if(isEqualString(stateLed.c_str(), string("HEAT"))) myOled->updateCurrentView(myOledViewWorkingHEAT);
+  if(isEqualString(stateLed.c_str(), string("OFF"))) {
+    digitalWrite(GPIO_PIN_LED_LOCK_ROUGE, LOW);
+    digitalWrite(GPIO_PIN_LED_OK_GREEN, HIGH);
+    digitalWrite(GPIO_PIN_LED_HEAT_YELLOW, LOW);
+    myOledViewWorkingOFF = new MyOledViewWorkingOFF();
+    myOledViewWorkingOFF->setParams("nomDuSysteme", nomSystem);
+    myOledViewWorkingOFF->setParams("idDuSysteme", ssIDRandom.c_str());
+    myOledViewWorkingOFF->setParams("temperature", strTemperatureDuFour);
+    myOledViewWorkingOFF->setParams("ipDuSysteme",WiFi.localIP().toString().c_str());
+    myOled->displayView(myOledViewWorkingOFF);
+    currentTemperatureDisplayed = temperature;
+  }
+
+  if(isEqualString(stateLed.c_str(), string("COLD"))) {
+    digitalWrite(GPIO_PIN_LED_LOCK_ROUGE, HIGH);
+    digitalWrite(GPIO_PIN_LED_OK_GREEN, LOW);
+    digitalWrite(GPIO_PIN_LED_HEAT_YELLOW, LOW);
+    myOledViewWorkingCOLD = new MyOledViewWorkingCOLD();
+    myOledViewWorkingCOLD->setParams("nomDuSysteme", nomSystem);
+    myOledViewWorkingCOLD->setParams("idDuSysteme", ssIDRandom.c_str());
+    myOledViewWorkingCOLD->setParams("temperature", strTemperatureDuFour);
+    myOledViewWorkingCOLD->setParams("ipDuSysteme",WiFi.localIP().toString().c_str());
+    myOled->displayView(myOledViewWorkingCOLD);
+    currentTemperatureDisplayed = temperature;
+
+  }
+
+  if(isEqualString(stateLed.c_str(), string("HEAT"))) {
+    digitalWrite(GPIO_PIN_LED_LOCK_ROUGE, LOW);
+    digitalWrite(GPIO_PIN_LED_OK_GREEN, LOW);
+    digitalWrite(GPIO_PIN_LED_HEAT_YELLOW, HIGH);
+    myOledViewWorkingHEAT = new MyOledViewWorkingHEAT();
+    myOledViewWorkingHEAT->setParams("nomDuSysteme", nomSystem);
+    myOledViewWorkingHEAT->setParams("idDuSysteme", ssIDRandom.c_str());
+    myOledViewWorkingHEAT->setParams("temperature", strTemperatureDuFour);
+    myOledViewWorkingHEAT->setParams("ipDuSysteme",WiFi.localIP().toString().c_str());
+    myOled->displayView(myOledViewWorkingHEAT);
+    currentTemperatureDisplayed = temperature;
+  }
+}
 
 
 void loop() {
-    /*myOled->clearDisplay();
-    int x = 20;
-    int y = 10;
-    char buffer[1024];
-    float temp = temperatureStub->getTemperature();
-    Serial.println(temp);
-    sprintf(buffer,"Temperature : %f" ,temp);
-    myOled->printIt(x,y,buffer, true, 0);
-    delay(1000);
-*/
-    
+   temperature = temperatureStub->getTemperature();
+   delay(2000); 
+
+   if (stateLed =="HEATING"){
+       Serial.println("Heating");
+   }
   }
 
 
