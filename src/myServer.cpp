@@ -3,6 +3,7 @@
     @file MyServer.cpp
     @author Alain Dubé
     @version 1.1 20/11/20 
+    @version Maxence MAZEAU 1.2 22/12/08
 */
 #include <Arduino.h>
 #include "MyServer.h"

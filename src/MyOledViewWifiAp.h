@@ -4,6 +4,42 @@
 #ifndef MYOLEDVIEWWIFIAP_H
 #define MYOLEDVIEWWIFIAP_H
 
+/*
+    /**
+    Class MyOledView : Gestion d'une VUE pour le OLed (Affichage des informations de connexion au réseau Wifi)
+    Extends sur MyOledView
+    @file MyOledViewWifiAp.h
+    @author Maxence MAZEAU
+    @version 1.0 22/12/01 
+    
+    Historique des versions   
+                            Versions  Date      Auteur      Description
+                            1.0      22/12/01   Maxence MAZEAU        Première version de la classe
+                            
+                            
+    platform = espressif32
+    board = esp32doit-devkit-v1
+    framework = arduino
+    lib_deps = 
+        Aucune
+    Autres librairies (à copier dans le répertoire lib)
+        Aucune
+    
+    Exemple d'utilisation 
+        //Définition 
+            #include "MyOledViewWifiAp.h"
+            class MyOledViewWifiAp: public MyOledView {
+                public:
+                
+                private:
+                    //Mettre la vue dans cette méthode
+                    void display( Adafruit_SSD1306 *adafruit);
+        ...
+        //Utilisation
+        MyOledViewWifiAp = new MyOledViewWifiAp();
+        myOled->displayView(MyOledViewWifiAp);
+*/
+
 #include <Adafruit_SSD1306.h>
 #include "MyOledView.h"
 #include <string>

@@ -1,4 +1,9 @@
-
+/**
+    Gestion d'une VUE pour le OLed : Base pour les écrans de travail
+    @file MyOledViewWorkingHEAT.cpp
+    @author Maxence MAZEAU
+    @version 1.1 22/12/01 
+*/
 #include <Arduino.h>
 #include "MyOledViewWifiAp.h"
 using namespace std;

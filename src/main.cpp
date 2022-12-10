@@ -12,6 +12,10 @@
     Historique des versions
            Version    Date       Auteur       Description
            1.1        21/08/15  Alain       Première version du logiciel
+           1.2        22/10/07  Maxence MAZEAU      Ajout de la gestion Wifi
+           1.3        22/10/23  Maxence MAZEAU      Gestion temperature
+           1.4        22/11/17  Maxence MAZEAU      Ajout de la gestion de l'écran OLED
+           1.5       22/12/09  Maxence MAZEAU      Version finale
 
     platform = espressif32
     board = esp32doit-devkit-v1
@@ -103,8 +107,8 @@ MyOled *myOled = NULL;
 bool splashScreen = true;
 
 #include "TemperatureStub.h"
-#define DHTPIN  15   // Pin utilisée par le senseur DHT11 / DHT22
-#define DHTTYPE DHT22  //Le type de senseur utilisé (mais ce serait mieux d'avoir des DHT22 pour plus de précision)
+#define DHTPIN  15   
+#define DHTTYPE DHT22
 TemperatureStub *temperatureStub = NULL;
 float temperature;
 int currentTemperatureDisplayed = 0;
@@ -121,7 +125,7 @@ int dryingBois = 0;
 int tempMin = 0;
 int compteur = 0;
 bool isDrying = false;
-
+//Valeur par défaut pour le delay entre chaque boucle
 int delayOnLoop = 1000;
 
 #define nomSystem "SAC System"
@@ -170,6 +174,7 @@ std::string CallBackMessageListener(string message) {
 
 }
 
+// Fonction qui permet de définir les différents états du four et de gérer les différents affichages
  void displayGoodScreen(){
   delay(10);
   sprintf(strTemperature, "%g", temperature);
@@ -301,17 +306,18 @@ char strToPrint[128];
 void loop() {
     temperature = temperatureStub->getTemperature();
 
+    // Gestion LED lors que le four est éteint
     if (isDrying == false && digitalRead((GPIO_PIN_LED_HEAT_YELLOW) == HIGH)) {
             digitalWrite(GPIO_PIN_LED_LOCK_ROUGE , LOW);
             digitalWrite(GPIO_PIN_LED_HEAT_YELLOW, HIGH);
             digitalWrite(GPIO_PIN_LED_OK_GREEN, HIGH);
         }
 
-    
+    //Gestion des états du four
     if (isDrying == true)
     {
         delayOnLoop = 10;
-        if(drying % 1000 == 0) {
+        if(drying % 1000 == 0) { // Modulo pour éviter de compter à chaque boucle
         compteur = drying/1000;
 
         if(dryingBois == compteur && digitalRead((GPIO_PIN_LED_OK_GREEN) == LOW)) {
@@ -330,7 +336,7 @@ void loop() {
             digitalWrite(GPIO_PIN_LED_OK_GREEN, HIGH);
             digitalWrite(GPIO_PIN_LED_HEAT_YELLOW, HIGH);
             digitalWrite(GPIO_PIN_LED_LOCK_ROUGE, LOW);
-            drying -= 10;
+            drying -= 10; // On enlève une valeur de 10 pour éviter que le compteur s'incrémente
             stateFour = "COLD";
             }
             displayGoodScreen();

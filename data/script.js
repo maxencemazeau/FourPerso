@@ -1,6 +1,15 @@
+/**
+    Gestion de la vue
+    @file script.js
+    @author Maxence MAZEAU
+    @version 1.0 API 2022-10-20 
+    @version 1.2 FOUR 2022-12-09
+*/
 
 var boisChoisi;
 var temperature = 0;
+
+//Récupération et affichage de la liste de bois
 window.addEventListener("load", getNomBois());
 function getNomBois(){
     var xhttp = new XMLHttpRequest();
@@ -24,16 +33,17 @@ function getNomBois(){
     xhttp.open("GET", "getlisteNomBois", true);
     xhttp.send();
 }
+
+//Récupération et affichage des caractéristiques des bois
 function getCaracteristiqueBois(){
     var idBois = document.getElementById("listeBois").value;
-    console.log(idBois);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function()
         {
             if(this.readyState == 4 && this.status == 200) {
                 if(this.responseText.length > 0) {            
                     var description = JSON.parse(this.responseText);
-                    console.log(description);
+                    
                     for(i = 0; i < description.results.length; i++){
                         boisChoisi = description.results[i];
                         document.getElementById("tempMin").innerHTML = description.results[i].tempMin;
@@ -61,6 +71,7 @@ function getCaracteristiqueBois(){
     xhttp.send();
 }
 
+//Récupération de la température et affichage
 setInterval(function getFromEsp_TemperatureSensor(){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
@@ -73,24 +84,24 @@ setInterval(function getFromEsp_TemperatureSensor(){
     xhttp.send();
     }, 3000);
 
+    //Compteur et envoie d'information du timer au main
 function four(){
-    var i = 0;
+     var i = 0;
             var timer = setInterval(function(){                
             i++
-            console.log(i);
+            
             document.getElementById("timer").innerHTML = i;
             if(i == boisChoisi.drying){              
                 clearInterval(timer);
     }
-            }, 1000);
+            }, 1000); 
         
     var xhttp = new XMLHttpRequest();
-    console.log(boisChoisi.drying);
-    console.log(boisChoisi.tempMin);
     xhttp.open("GET", "sendBoisInfo?drying="+boisChoisi.drying+"&tempMin="+boisChoisi.tempMin, true);
     xhttp.send();
 }
 
+//Gestion des affichages de l'état sur la page web
 window.addEventListener("load", getFromEsp_StateLed());
 function getFromEsp_StateLed(){
     setInterval(function(){
