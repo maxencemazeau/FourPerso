@@ -1,8 +1,8 @@
 /**
     Gestion d'un bouton pour permettre au système de démarrer
     @file MyButton.cpp
-    @author Alain Dubé
-    @version 1.0 17/03/21  
+    @author Alex De Souza
+    @version 1.0 09/09/22  
 */
 
 #include "MyButton.h"
@@ -38,13 +38,13 @@ int MyButton::autoSensibilisation() {
     return (toucheButtonSensibilite);
     }
 
-/**
- * checkMyButton Teste si le bouton est activé et retourne le nombre de dixiemes de secondes 
- *
- * 
-  * @return int 0 : Si rien   NbreSec : Nbre de dixiemes de secondes que le bouton est appuye et relaché   Négatif:si le bouton est appuyé mais non relaché
- */
-int MyButton::checkMyButton() {
+    /**
+     * checkMyButton Teste si le bouton est activé et retourne le nombre de dixiemes de secondes 
+     *
+     * 
+     * @return int 0 : Si rien   NbreSec : Nbre de dixiemes de secondes que le bouton est appuye et relaché   Négatif:si le bouton est appuyé mais non relaché
+     */
+    int MyButton::checkMyButton() {
     //Vérification si l'usager a appuyé sur le bouton 
     if (touchRead(buttonGPIO) < toucheButtonSensibilite) {
         if (!toucheButtonActif) {
@@ -64,4 +64,4 @@ int MyButton::checkMyButton() {
         }
     }
     return (0);
-    }
+}

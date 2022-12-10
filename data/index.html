@@ -1,29 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
- 
-<head>
-<link rel="stylesheet" href="style.css" type="text/css">
-<script type = "text/javascript" src="script.js"> 
-     hide();
-     getNomBois();
-     getCaracteristiqueBois();
-    
-
-            </script>
-</head>
-
+  <head>
+    <link rel="stylesheet" href="index.css" type="text/css">
+    <script type="text/javascript" src="script.js"></script>
+  </head>
 <body>
-    <img src="sac.png" width="250" height="150">
+  <img src="Sac.png" alt="logo">
+    <!-- <p>Cliquez ici </p>
+    <input type = "button" onclick = "getFromESP_getNom()" value = "Afficher">   -->
+  <h1 data-i18n-key="app-title"> Type de Bois</h1>  
+  <select id="listeBois" size="1" class="choix"></select>
 
-    <h1> Type de Bois</h1>
-
-  <SELECT id="listeBois" size="1" class="choix">
-</SELECT>
-
-<h1>Caracteristiques
-</h1>
-
-<table style="border:solid;">
+  <h1>Caracteristiques</h1>
+    <div>
+      <table style="border:solid; width: 200px;">
         <tr>
           <td>Bois</td>
           <td>:</td>
@@ -50,28 +40,26 @@
           <td id="tempMin"></td>
         </tr>
       </table>
-<h3> Controle du four de sechage </h3>
-
-<div class="block">
-    <div class="center">
-    <p> Temperature du Four </p>
-    <br>
-    <p class="celcius" id="temp"></p>
-    <br>
-    <button id="four" class="box">Demarrage du four</button>
     </div>
-    <div class="ligne">
-        <p class="bleu"><span id="nomDuBois2"></span></p>
-        <p class="bleu"><span id="timer"></span>/<span id="dryingBois2"></span> Temps de sechage(sec)</p>
-        <p class="bleu">(min: <span id="tempMin2"></span> Celsuis)</p>
-    <div class="right">
-        <span class="cercleRouge" id="rouge"></span>
-        <span class="cercleOrange" id="orange"></span>
-        <span class="cercleVert" id="vert"></span>
-    </div>
-    </div>
-</div>
+    <h3 data-i18n-key="lead"> Controle du four de sechage </h3>
+    <div class="block">
+        <div class="center">
+        <p> Temperature du Four </p>
+        <br>
+        <p class="celcius" id="temp">N/A</p>
+        <br>
+        <button id="four" class="box">Demarrage du four</button>
+        </div>
+          <div class="ligne">
+              <p class="bleu"><span id="nomDuBois2"></span></p>
+              <p class="bleu"><span id="timer"></span>/<span id="dryingBois2"></span> Temps de sechage(sec)</p>
+              <p class="bleu">(min: <span id="tempMin2"></span> Celsuis)</p>
+          <div class="right">
+              <span class="cercleRouge" id="cercleRouge"></span>
+              <span class="cercleOrange" id="cercleOrange"></span>
+              <span class="cercleVert" id="cercleVert"></span>
+          </div>
+        </div>
+  </div>
 </body>
-
-
 </html>

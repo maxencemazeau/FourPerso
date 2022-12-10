@@ -1,9 +1,4 @@
-/**
-    Gestion d'une VUE pour le OLed  
-    @file MyOledViewWorkingCOLD.cpp
-    @author Alex De Souza
-    @version 1.1 20/11/22 
-*/
+
 
 #include <Arduino.h>
 #include "MyOledViewWorkingCOLD.h"
@@ -18,7 +13,7 @@ void MyOledViewWorkingCOLD::display(Adafruit_SSD1306 *adafruit){
     adafruit->setCursor(70,20);
     adafruit->print("Waiting");
 
-    displayGifFire(adafruit, 80, 30);
+    //displayGifFire(adafruit, 80, 30);
 
     adafruit->setTextSize(2);
     adafruit->setCursor(10, 30);

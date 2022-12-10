@@ -1,8 +1,6 @@
 
-   var boisChoisi;
-   var temperature;
-   var etat;
-   
+var boisChoisi;
+var temperature = 0;
 window.addEventListener("load", getNomBois());
 function getNomBois(){
     var xhttp = new XMLHttpRequest();
@@ -26,8 +24,6 @@ function getNomBois(){
     xhttp.open("GET", "getlisteNomBois", true);
     xhttp.send();
 }
-
-
 function getCaracteristiqueBois(){
     var idBois = document.getElementById("listeBois").value;
     console.log(idBois);
@@ -45,18 +41,19 @@ function getCaracteristiqueBois(){
                         document.getElementById("typeBois").innerHTML = description.results[i].type;
                         document.getElementById("origineBois").innerHTML = description.results[i].origine;
                         document.getElementById("dryingBois").innerHTML = description.results[i].drying;
-                        document.getElementById("nomDuBois2").innerHTML = description.results[i].nom;
-                        document.getElementById("tempMin2").innerHTML = description.results[i].tempMin;
-                        document.getElementById("dryingBois2").innerHTML = description.results[i].drying;
-                       // etat="OFF";
-                        document.getElementById("rouge").style.visibility = 'visible';
-                        document.getElementById("orange").style.visibility = 'hidden';
-                        document.getElementById("vert").style.visibility = 'hidden';
-                        var xhttp2 = new XMLHttpRequest()
-                        xhttp2.open("GET", "etatFour?etat="+"OFF", true);
-                        xhttp2.send();
+                        document.getElementById("nomDuBois2").innerText = description.results[i].nom;
+                        document.getElementById("dryingBois2").innerText = description.results[i].drying;
+                        document.getElementById("tempMin2").innerText = description.results[i].tempMin;
+                        document.getElementById("dryingBois2").value = description.results[i].drying
+                        document.getElementById("tempMin2").value = description.results[i].tempMin;
+                        document.getElementById("cercleVert").style.backgroundColor = "white";
+                        document.getElementById("cercleRouge").style.backgroundColor = "red";
+                        document.getElementById("cercleOrange").style.backgroundColor = "white";
+
+                        
                     }
                     document.getElementById("four").addEventListener("click", four);
+                    
                 }
             }
         };
@@ -64,44 +61,65 @@ function getCaracteristiqueBois(){
     xhttp.send();
 }
 
-  function four(){
-    var i = 0;
-    var temp = parseInt(temperature);
-    if( temp >= boisChoisi.tempMin) {
-            var timer = setInterval(function(){
-                
-            i++
-            document.getElementById("timer").innerHTML = i;
-            document.getElementById("rouge").style.visibility = 'hidden';
-            document.getElementById("orange").style.visibility = 'visible';
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "etatFour?etat="+"HEATING", true);
-            xhttp.send();
-            if(i == boisChoisi.drying){
-                
-                clearInterval(timer);
-                document.getElementById("orange").style.visibility = 'hidden';
-                document.getElementById("vert").style.visibility = 'visible';
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "etatFour?etat="+"COLD", true);
-            }
-            
-    }, 1000);
-    
-}
-};
-
 setInterval(function getFromEsp_TemperatureSensor(){
     var xhttp = new XMLHttpRequest();
-   
     xhttp.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
             document.getElementById("temp").innerHTML = this.responseText;
             temperature = this.responseText;
-            
         }
     };
     xhttp.open("GET", "getTemperatureSensor", true);
     xhttp.send();
-    
     }, 3000);
+
+function four(){
+    var i = 0;
+            var timer = setInterval(function(){                
+            i++
+            console.log(i);
+            document.getElementById("timer").innerHTML = i;
+            if(i == boisChoisi.drying){              
+                clearInterval(timer);
+    }
+            }, 1000);
+        
+    var xhttp = new XMLHttpRequest();
+    console.log(boisChoisi.drying);
+    console.log(boisChoisi.tempMin);
+    xhttp.open("GET", "sendBoisInfo?drying="+boisChoisi.drying+"&tempMin="+boisChoisi.tempMin, true);
+    xhttp.send();
+}
+
+window.addEventListener("load", getFromEsp_StateLed());
+function getFromEsp_StateLed(){
+    setInterval(function(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+                if(this.responseText == "DONE"){
+                    document.getElementById("cercleVert").style.backgroundColor = "green";
+                    document.getElementById("cercleRouge").style.backgroundColor = "white";
+                    document.getElementById("cercleOrange").style.backgroundColor = "white";
+                }
+                else if(this.responseText == "COLD"){
+                    document.getElementById("cercleVert").style.backgroundColor = "white";
+                    document.getElementById("cercleRouge").style.backgroundColor = "red";
+                    document.getElementById("cercleOrange").style.backgroundColor = "white";
+                }
+                else if(this.responseText == "HEAT"){
+                    document.getElementById("cercleVert").style.backgroundColor = "white";
+                    document.getElementById("cercleRouge").style.backgroundColor = "white";
+                    document.getElementById("cercleOrange").style.backgroundColor = "orange";
+                }
+                
+            }
+        };
+        xhttp.open("GET", "getStateLed", true);
+        xhttp.send();
+    }, 1000);
+    };
+
+
+
+            

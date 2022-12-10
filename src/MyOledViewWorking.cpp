@@ -56,4 +56,5 @@ void MyOledViewWorking::display( Adafruit_SSD1306 *adafruit) {
     adafruit->print(getTag("ipDuSysteme").c_str());
 
     adafruit->display();
-    }
+}
+	
